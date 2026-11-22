@@ -352,6 +352,7 @@ What each part means:
 - `inferno@192.168.59.152` specifies the username `inferno` and target IP `192.168.59.152`.
 
 ![IP ARP Scan](screenshots/19-ssh-login-inferno.png) 
+
 Caption: Figure 19 - Establishing an SSH session as `inferno`.
 
 ---
@@ -377,6 +378,7 @@ What each part means:
 - `exit` closes the current session.
 
 ![IP ARP Scan](screenshots/20-nano-permissions-motd-test.png) 
+
 Figure 20 - nano & MOTD attempt: Checking `/bin/nano` and attempting to append a command to MOTD.
 
 ### Generating a Password Hash with `openssl`
@@ -395,7 +397,8 @@ What each part means:
 - `pass123` is the plain-text password I am hashing.
 
 ![IP ARP Scan](screenshots/21-openssl-passwd-hash.png) 
- Figure 21 - Generating a salted password hash with openssl passwd.
+
+Figure 21 - Generating a salted password hash with openssl passwd.
 
 ### Adding a Root User Entry to `/etc/passwd` via `nano`
 
@@ -493,7 +496,7 @@ What each part means:
 - `ls` lists files currently on the WebDAV folder.
 - `put /home/kali/shell.php` uploads the Meterpreter `shell.php` file to `/webdav/shell.php`.
 
-Screenshots:
+
 ![IP ARP Scan](screenshots/25-cadaver-connect-webdav.png) 
 
 Figure 25 - Connecting to /webdav with cadaver to upload the Meterpreter payload.
@@ -502,7 +505,7 @@ Figure 25 - Connecting to /webdav with cadaver to upload the Meterpreter payload
 
 Figure 26 - Listing /webdav/ contents in cadaver.
 
-![IP ARP Scan](screenshots/04-web-app-narak-home.png) 
+![IP ARP Scan](screenshots/27-cadaver-put-meterpreter-shell.png) 
 
  Figure 27 - Uploading the generated shell.php payload via put.
 
