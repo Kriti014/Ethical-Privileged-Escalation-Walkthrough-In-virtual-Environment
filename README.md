@@ -17,7 +17,7 @@ ip a
 sudo arp-scan --localnet
 ```
 
-Screenshot: `screenshots/01-ip-and-arp-scan.png`
+![IP and arp-scan](screenshots/01-network-ip-arp-scan.png)
 
 Figure 1 - Confirming the local Kali IP (`192.168.59.133`) and discovering the target host (`192.168.59.152`) on the local network.
 
@@ -37,8 +37,8 @@ Findings from scan:
 - Port `80/tcp` open: HTTP (`Apache httpd 2.4.29`, title `HA: NARAK`)
 - OS details point to Linux (`Ubuntu` / kernel `3.2 - 4.14`).
 
-Screenshot: `screenshots/02-nmap-aggressive-scan.png`  
-
+![IP ARP Scan](screenshots/02-nmap-service-os-scan.png) 
+screenshots/02-nmap-service-os-scan.png
 Figure 2 - Service, version, and OS scan of `192.168.59.152`, identifying open SSH (port 22) and HTTP (port 80, Apache/Ubuntu).
 
 ---
@@ -51,8 +51,8 @@ Command:
 ```bash
 nikto -host http://192.168.59.152
 ```
-
-Screenshot: `screenshots/03-nikto-scan.png`  
+ 
+![IP ARP Scan](screenshots/02-nmap-service-os-scan.png) 
 
 Figure 3 - Nikto scan output against `http://192.168.59.152` highlighting server headers, missing security headers, and directory/configuration findings.
 
@@ -62,7 +62,7 @@ Figure 3 - Nikto scan output against `http://192.168.59.152` highlighting server
 
  Automated scanners miss visual context and page structure, so I open the site in the browser to see what the application (`HA: NARAK`) looks like and check links.
 
-Screenshot: `screenshots/04-browser-home-narak.png`  
+![IP ARP Scan](screenshots/04-web-app-narak-home.png) 
 Figure 4 - Browser view of the initial web page hosted on port 80 (`HA: NARAK`).
 
 ---
@@ -82,7 +82,7 @@ What I found:
 - `/server-status` (`403 Forbidden`)
 - `/webdav` (`401 Unauthorized` - asks for login)
 
-Screenshot: `screenshots/05-dirb-directories.png` 
+![IP ARP Scan](screenshots/05-dirb-directory-scan.png) 
 
 Figure 5 - Directory brute-force results identifying `/images/`, `/index.html`, `/server-status` (403), and `/webdav` (401).
 
@@ -92,7 +92,7 @@ Figure 5 - Directory brute-force results identifying `/images/`, `/index.html`, 
 
 `/webdav` returned a 401 status code, which means it is protected by HTTP authentication. I checked it in the browser to confirm the login prompt.
 
-Screenshot: `screenshots/06-webdav-auth-prompt.png`  
+![IP ARP Scan](screenshots/06-webdav-login-prompt.png) 
 
 Figure 6 - HTTP authentication prompt encountered when accessing `/webdav`.
 
@@ -109,7 +109,7 @@ dirb http://192.168.59.152/ -X .txt
 
 Result: Found `http://192.168.59.152/tips.txt`.
 
-Screenshot: `screenshots/07-dirb-txt-scan.png`  
+![IP ARP Scan](screenshots/07-dirb-txt-scan.png) 
 
 Figure 7 - Extension-specific scan discovering `/tips.txt`.
 
@@ -119,7 +119,7 @@ Figure 7 - Extension-specific scan discovering `/tips.txt`.
 
  I open `/tips.txt` in the browser to read whatever note or hint is inside.
 
-Screenshot: `screenshots/08-tips-txt-contents.png`  
+![IP ARP Scan](screenshots/08-tips-txt-hint.png) 
 
 Figure 8 - Contents of `/tips.txt` referencing `creds.txt`.
 
@@ -142,7 +142,7 @@ What each part means:
   
 Finding: Port `69/udp` (`tftp`) shows as `open|filtered`.
 
-Screenshot: `screenshots/09-nmap-udp-scan.png`  
+![IP ARP Scan](screenshots/09-nmap-udp-tftp-scan.png) 
  Figure 9 - UDP port scan revealing tftp on port 69/udp (open|filtered).
 
 ---
@@ -169,7 +169,7 @@ cat creds.txt
 ```
 
 
-Screenshot: `screenshots/10-tftp-get-creds.png`  
+![IP ARP Scan](screenshots/10-tftp-get-creds.png) 
 
  Figure 10 - Retrieving `creds.txt` via TFTP, viewing available commands with `help`, exiting with `quit`, and inspecting the encoded file contents.
 
@@ -192,7 +192,7 @@ What each part means:
 
 Decoded output: `yamdoot:Swarg` (username `yamdoot`, password `Swarg`).
 
-Screenshot: `screenshots/11-base64-decode-creds.png`  
+![IP ARP Scan](screenshots/11-base64-decode-creds.png) 
 
 Figure 11 - Decoding `creds.txt` with `base64 -d` to reveal `yamdoot:Swarg`.
 
@@ -202,7 +202,7 @@ Figure 11 - Decoding `creds.txt` with `base64 -d` to reveal `yamdoot:Swarg`.
 
 I will test `yamdoot:Swarg` on `http://192.168.59.152/webdav/` in the browser to see if we get access to the WebDAV directory.
 
-Screenshot: `screenshots/12-webdav-login-success.png`  
+![IP ARP Scan](screenshots/12-webdav-auth-success.png) 
 
 Figure 12 - Successful authentication to `/webdav/` using the recovered credentials.
 
@@ -236,7 +236,7 @@ What each part means:
 - `cadaver http://192.168.59.152/webdav` is a command-line WebDAV client used to interact with the WebDAV share.
 - `put /home/kali/shell.php` uploads the local `shell.php` file to the remote `/webdav` directory.
 
-Screenshot: `screenshots/13-create-and-upload-shell-php.png`  
+![IP ARP Scan](screenshots/13-nano-shell-and-cadaver-upload.png) 
 Figure 13 - Creating `shell.php` and uploading it to `/webdav` via `cadaver`.
 
 ---
@@ -245,7 +245,7 @@ Figure 13 - Creating `shell.php` and uploading it to `/webdav` via `cadaver`.
 
 I will check the `/webdav/` directory listing in the browser to confirm `shell.php` uploaded properly before triggering it.
 
-Screenshot: `screenshots/14-webdav-shell-present.png`  
+![IP ARP Scan](screenshots/14-webdav-shell-uploaded.png) 
 
 Figure 14 - Confirming `shell.php` is present on the WebDAV share.
 
@@ -276,7 +276,7 @@ What each part means:
 - `ls` lists files and folders in the current directory.
 - `cd /` changes the current directory to the root directory `/`.
 
-Screenshot: `screenshots/15-netcat-reverse-shell.png`  
+![IP ARP Scan](screenshots/15-netcat-listener-shell.png) 
 Figure 15 - Receiving the reverse shell connection as `www-data` and exploring the root filesystem (`/`).
 
 ---
@@ -298,7 +298,7 @@ What each part means:
 - `2>/dev/null` hides permission denied error messages so output stays clean.
 - `cat /mnt/hell.sh` prints the contents of `/mnt/hell.sh`.
 
-Screenshot: `screenshots/16-find-and-read-hell-sh.png`  
+![IP ARP Scan](screenshots/16-find-rwx-mnt-hell.png) 
 Figure 16 - Finding `/mnt/hell.sh` and viewing the encoded payload inside it.
 
 ### Decoding the Brainfuck String
@@ -312,7 +312,7 @@ Brainfuck string:
 
 Decoded result: `chitragupt`.
 
-Screenshot: `screenshots/17-brainfuck-decoded-chitragupt.png`  
+![IP ARP Scan](screenshots/17-brainfuck-decode-chitragupt.png) 
 Figure 17 - Decoding the Brainfuck string to `chitragupt`.
 
 ### Checking `/home` and Reading `user.txt`
@@ -334,7 +334,7 @@ What each part means:
 - `cd inferno` enters the `inferno` directory.
 - `cat user.txt` reads the user flag from `user.txt`.
 
-Screenshot: `screenshots/18-user-flag-inferno.png`  
+![IP ARP Scan](screenshots/18-home-inferno-user-flag.png) 
 Caption: Figure 18 - Navigating `/home`, locating `user.txt` under `inferno`, and reading the user flag.
 
 ### Logging In via SSH as `inferno`
@@ -350,7 +350,7 @@ What each part means:
 - `ssh` connects securely to a remote machine using the SSH protocol.
 - `inferno@192.168.59.152` specifies the username `inferno` and target IP `192.168.59.152`.
 
-Screenshot: `screenshots/19-ssh-login-inferno.png`  
+![IP ARP Scan](screenshots/19-ssh-login-inferno.png) 
 Caption: Figure 19 - Establishing an SSH session as `inferno`.
 
 ---
@@ -375,7 +375,7 @@ What each part means:
 - `echo "..." >> ...` tries to append text to a file (this failed because the path `/etc/update-mold.d/00-header` does not exist).
 - `exit` closes the current session.
 
-Screenshot: `screenshots/20-nano-check-and-motd-attempt.png`  
+![IP ARP Scan](screenshots/20-nano-permissions-motd-test.png) 
 Figure 20 - nano & MOTD attempt: Checking `/bin/nano` and attempting to append a command to MOTD.
 
 ### Generating a Password Hash with `openssl`
@@ -393,7 +393,7 @@ What each part means:
 - `-salt uwlnew` sets the salt value to `uwlnew`.
 - `pass123` is the plain-text password I am hashing.
 
-Screenshot: `screenshots/21-openssl-passwd-hash.png`  
+![IP ARP Scan](screenshots/21-openssl-passwd-hash.png) 
  Figure 21 - Generating a salted password hash with openssl passwd.
 
 ### Adding a Root User Entry to `/etc/passwd` via `nano`
@@ -419,7 +419,7 @@ What each field in the `/etc/passwd` entry means (separated by `:`):
 6. `/root` — home directory.
 7. `/bin/bash` — login shell.
 
-Screenshot: `screenshots/22-etc-passwd-root-entry.png`  
+![IP ARP Scan](screenshots/22-etc-passwd-root-entry.png) 
 Figure 22 - Adding the root-privileged account line to /etc/passwd in nano.
 
 ### Switching to `uwlnew` and Reading `/root/root.txt`
@@ -442,7 +442,7 @@ What each part means:
 - `cd /root` and `ls` move into `/root` and list files.
 - `cat root.txt` reads the root flag file.
 
-Screenshot: `screenshots/23-su-root-and-root-flag.png`  
+![IP ARP Scan](screenshots/23-su-root-and-root-flag.png) 
 
 Figure 23 - Escalating to root via su and reading /root/root.txt to obtain the root flag.
 
@@ -468,7 +468,8 @@ What each part means:
 - `-f raw > shell.php` outputs the raw payload directly into `shell.php`.
 - `msfconsole -q -x "..."` launches Metasploit quietly (`-q`) and runs (`-x`) the commands to configure `exploit/multi/handler` and start it as a background job (`-j`).
 
-Screenshot: `screenshots/24-msfvenom-and-multi-handler.png`  
+![IP ARP Scan](screenshots/24-msfvenom-and-multi-handler.png) 
+
 Figure 24 - Generating shell.php with msfvenom and starting the multi/handler listener in Metasploit.
 
 ### Uploading the Meterpreter Payload via `cadaver`
@@ -492,11 +493,16 @@ What each part means:
 - `put /home/kali/shell.php` uploads the Meterpreter `shell.php` file to `/webdav/shell.php`.
 
 Screenshots:
-- `screenshots/25-cadaver-connect-meterpreter.png`  
+![IP ARP Scan](screenshots/25-cadaver-connect-webdav.png) 
+
 Figure 25 - Connecting to /webdav with cadaver to upload the Meterpreter payload.
-- `screenshots/26-cadaver-ls-webdav.png`  
+
+![IP ARP Scan](screenshots/26-cadaver-ls-webdav.png) 
+
 Figure 26 - Listing /webdav/ contents in cadaver.
-- `screenshots/27-cadaver-put-meterpreter.png`  
+
+![IP ARP Scan](screenshots/04-web-app-narak-home.png) 
+
  Figure 27 - Uploading the generated shell.php payload via put.
 
 ### Interacting with the Meterpreter Session and Checking System Info
@@ -521,14 +527,13 @@ What each part means:
 - `shell` drops from Meterpreter into a standard OS command shell.
 - `ifconfig` displays network interfaces and IP configuration on the target.
 
-Screenshots:
-- `screenshots/28-msf-sessions-list.png`  
+![IP ARP Scan](screenshots/27-cadaver-put-meterpreter-shell.png) 
   Caption: Figure 28 - Listing active Meterpreter sessions in Metasploit.
-- `screenshots/29-meterpreter-interact-session-1.png`  
+![IP ARP Scan](screenshots/28-meterpreter-sessions-list.png) 
   Caption: Figure 29 - Opening interaction with Meterpreter session 1.
-- `screenshots/30-meterpreter-getuid-sysinfo.png`  
+![IP ARP Scan](screenshots/29-meterpreter-interact-session-1.png) 
   Caption: Figure 30 - : Checking current user (www-data) and target system info in Meterpreter.
-- `screenshots/31-meterpreter-shell-ifconfig.png`  
+![IP ARP Scan](screenshots/30-meterpreter-getuid-sysinfo.png) 
   Caption: Figure 31 - Dropping into a system shell and checking network interface details with ifconfig.
 
 ---
