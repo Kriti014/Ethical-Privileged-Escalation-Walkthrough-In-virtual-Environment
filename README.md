@@ -52,7 +52,7 @@ Command:
 nikto -host http://192.168.59.152
 ```
  
-![IP ARP Scan](screenshots/02-nmap-service-os-scan.png) 
+![IP ARP Scan](screenshots/03-nikto-web-scan.png) 
 
 Figure 3 - Nikto scan output against `http://192.168.59.152` highlighting server headers, missing security headers, and directory/configuration findings.
 
@@ -335,7 +335,8 @@ What each part means:
 - `cat user.txt` reads the user flag from `user.txt`.
 
 ![IP ARP Scan](screenshots/18-home-inferno-user-flag.png) 
-Caption: Figure 18 - Navigating `/home`, locating `user.txt` under `inferno`, and reading the user flag.
+
+Figure 18 - Navigating `/home`, locating `user.txt` under `inferno`, and reading the user flag.
 
 ### Logging In via SSH as `inferno`
 
