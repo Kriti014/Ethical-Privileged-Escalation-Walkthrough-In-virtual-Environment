@@ -531,14 +531,21 @@ What each part means:
 - `shell` drops from Meterpreter into a standard OS command shell.
 - `ifconfig` displays network interfaces and IP configuration on the target.
 
-![IP ARP Scan](screenshots/27-cadaver-put-meterpreter-shell.png) 
-  Caption: Figure 28 - Listing active Meterpreter sessions in Metasploit.
 ![IP ARP Scan](screenshots/28-meterpreter-sessions-list.png) 
-  Caption: Figure 29 - Opening interaction with Meterpreter session 1.
+
+ Figure 28 - Listing active Meterpreter sessions in Metasploit.
+ 
 ![IP ARP Scan](screenshots/29-meterpreter-interact-session-1.png) 
-  Caption: Figure 30 - : Checking current user (www-data) and target system info in Meterpreter.
+ 
+ Figure 29 - Opening interaction with Meterpreter session 1.
+ 
 ![IP ARP Scan](screenshots/30-meterpreter-getuid-sysinfo.png) 
-  Caption: Figure 31 - Dropping into a system shell and checking network interface details with ifconfig.
+ 
+  Figure 30 - : Checking current user (www-data) and target system info in Meterpreter.
+  
+![IP ARP Scan](screenshots/31-meterpreter-shell-ifconfig.png) 
+ 
+  Figure 31 - Dropping into a system shell and checking network interface details with ifconfig.
 
 ---
 
